@@ -1,0 +1,119 @@
+ <!DOCTYPE html>
+<html>
+	<body>	
+		<table border=1 id="tab">
+			<tr>
+				 <td width="100"><b>id</b></td>
+				 <td width="200"><b>First name</b></td>
+				 <td width="200"><b>Last name</b></td>
+				 <td width="100"><b>Age</b></td>						 
+			</tr>
+		</table>
+		
+		<br/>
+		id  	<input type = "text" size="10" id="ind"/>
+		fname 	<input type = "text" size="10" id="fname"/>
+		lname  	<input type = "text" size="10" id="lname"/>
+		age		<input type = "text" size="10" id="age"/><br/>
+		<br/>
+		
+		<input type = "button" id="btnCreate" 	value="Create" 	onclick="createP()"/>
+		<input type = "button" id="btnRead" 	value="Read" 	onclick="readP()"/>
+		<input type = "button" id="btnUpdate" 	value="Update" 	onclick="updateP()"/>
+		<input type = "button" id="btnDelete" 	value="Delete" 	onclick="deleteP()"/>
+		
+       <script>
+	   
+            function createP()
+			{
+				createAjax(parseInt(ind.value), fname.value, lname.value, parseInt(age.value));
+            }
+            function readP()
+			{						
+				readAjax();
+            }	
+            function updateP()
+			{
+				updateAjax(parseInt(ind.value), fname.value, lname.value, parseInt(age.value));
+            }	
+            function deleteP()
+			{
+				deleteAjax(parseInt(ind.value));
+            }		
+			
+			function createAjax(id, fname, lname, age)
+			{
+				var prm = "id="+id+"&fName="+fname+"&lName="+lname+"&age="+age;
+			    var xhr = new XMLHttpRequest();
+				var state = false;
+			
+				xhr.onreadystatechange = function() 
+				{
+					if (xhr.readyState == 4 && xhr.status == 200)
+					{
+						var state = true;					
+					}
+				}
+
+				xhr.open("POST", "personTableCreate.php", true);
+				xhr.setRequestHeader("Content-type",'application/x-www-form-urlencoded');				
+			    xhr.send(prm);				
+			}	
+			
+			function readAjax()
+			{
+				var edit = document.getElementById('tab');
+			    var xhr = new XMLHttpRequest();
+			
+				xhr.onreadystatechange = function() 
+				{
+					if (xhr.readyState == 4 && xhr.status == 200)
+					{
+						edit.innerHTML	= xhr.responseText;
+					}
+				}
+
+				xhr.open("POST", "personTableRead.php", true);
+				xhr.setRequestHeader("Content-type",'application/x-www-form-urlencoded; charset=utf-8');
+				
+			    xhr.send();				
+			}	
+			
+			function updateAjax(id, fname, lname, age)
+			{
+				var prm = "id="+id+"&fName="+fname+"&lName="+lname+"&age="+age;
+			    var xhr = new XMLHttpRequest();
+				var state = false;
+			
+				xhr.onreadystatechange = function() 
+				{
+					if (xhr.readyState == 4 && xhr.status == 200)
+					{
+						var state = true;					
+					}
+				}
+
+				xhr.open("POST", "personTableUpdate.php", true);
+				xhr.setRequestHeader("Content-type",'application/x-www-form-urlencoded; charset=utf-8');				
+			    xhr.send(prm);				
+			}		
+			
+			function deleteAjax(id)
+			{
+				var prm = "id="+id;
+			    var xhr = new XMLHttpRequest();
+
+				xhr.onreadystatechange = function() 
+				{
+					if (xhr.readyState == 4 && xhr.status == 200)
+					{						
+					}
+				}
+
+				xhr.open("POST", "personTableDelete.php", true);
+				xhr.setRequestHeader("Content-type",'application/x-www-form-urlencoded; charset=utf-8');				
+			    xhr.send(prm);				
+			}			
+        </script>
+	</body>
+</html>
